@@ -50,13 +50,11 @@ fun MainScreen(onNavigateToSecondActivity: () -> Unit) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // Mostramos las diferentes secciones de negocios
-            BusinessItem("Negocios de la Nave 1")
-            BusinessItem("Negocios de la Nave 2")
-            BusinessItem("Negocios de la Nave 3")
-            BusinessItem("Atracciones y Concierto") // 4TA CARD AGREGADA
+            BusinessItem("Juegos", R.drawable.juegos)
+            BusinessItem("Puestos de comida", R.drawable.comida)
+            BusinessItem("Puestos de recuerdos", R.drawable.recuerdos)
+            BusinessItem("Artistas", R.drawable.artistas) // modificaciones hechas para cada nombre y imagen
 
-            // Botón para navegar a la segunda actividad
             Button(
                 onClick = onNavigateToSecondActivity,
                 modifier = Modifier.padding(top = 16.dp)
@@ -67,11 +65,12 @@ fun MainScreen(onNavigateToSecondActivity: () -> Unit) {
                 )
             }
         }
+
     }
 }
 
 @Composable
-fun BusinessItem(texto: String) {
+fun BusinessItem(texto: String, imageResId: Int) { //se le agrega esa funcion para que reciba imagenes
     // Card individual para cada negocio o atracción
     Card(
         modifier = Modifier
@@ -90,8 +89,8 @@ fun BusinessItem(texto: String) {
         ) {
             // Imagen representativa
             Image(
-                painter = painterResource(id = R.drawable.logo_rest),
-                contentDescription = "Logo restaurante",
+                painter = painterResource(id = imageResId),// aca se modifico el logo predeterminado
+                contentDescription = texto,
                 modifier = Modifier
                     .size(100.dp)
                     .padding(8.dp)
@@ -119,5 +118,5 @@ fun PreviewMainScreen() {
 @Preview(showBackground = true)
 @Composable
 fun PreviewBusinessItem() {
-    BusinessItem("Ejemplo Preview")
+    BusinessItem("Ejemplo Preview", R.drawable.logo_rest)
 }
