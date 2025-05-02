@@ -21,6 +21,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
+
+
 // COLORES DEL MODO OSCURO Y CLARO
 private val Purple40 = Color(0xFF6650a4)
 private val Purple80 = Color(0xFFD0BCFF)
@@ -39,6 +41,8 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+
+
 @Composable
 fun MainScreen(onNavigateToSecondActivity: () -> Unit) {
     Surface(
@@ -52,11 +56,19 @@ fun MainScreen(onNavigateToSecondActivity: () -> Unit) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            BusinessItem("Juegos", R.drawable.juegos)
-            BusinessItem("Puestos de comida", R.drawable.comida)
-            BusinessItem("Puestos de recuerdos", R.drawable.recuerdos)
+            val context = LocalContext.current //aqui se declara context para todas las carts
+
+            ClickableCard("Juegos", R.drawable.juegos) {
+                context.startActivity(Intent(context, JuegosActivity::class.java))
+            }
+            ClickableCard("Puestos de comida", R.drawable.comida) {
+                context.startActivity(Intent(context, ComidaActivity::class.java))
+            }
+            ClickableCard("Puestos de recuerdos", R.drawable.recuerdos) {
+                context.startActivity(Intent(context, RecuerdosActivity::class.java))
+            }
             //Esta modificación se hizo para abrir la actividad de la cartelera al hacer clic
-            val context = LocalContext.current
+
             ClickableCard("Artistas", R.drawable.artistas) {
                 context.startActivity(Intent(context, CarteleraActivity::class.java))
             }
