@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -18,6 +19,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+
+
 
 // COLORES DEL MODO OSCURO Y CLARO
 private val Purple40 = Color(0xFF6650a4)
@@ -37,6 +41,8 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+
+
 @Composable
 fun MainScreen(onNavigateToSecondActivity: () -> Unit) {
     Surface(
@@ -50,10 +56,23 @@ fun MainScreen(onNavigateToSecondActivity: () -> Unit) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            BusinessItem("Juegos", R.drawable.juegos)
-            BusinessItem("Puestos de comida", R.drawable.comida)
-            BusinessItem("Puestos de recuerdos", R.drawable.recuerdos)
-            BusinessItem("Artistas", R.drawable.artistas) // modificaciones hechas para cada nombre y imagen
+            val context = LocalContext.current //aqui se declara context para todas las carts
+
+            ClickableCard("Juegos", R.drawable.juegos) {
+                context.startActivity(Intent(context, JuegosActivity::class.java))
+            }
+            ClickableCard("Puestos de comida", R.drawable.comida) {
+                context.startActivity(Intent(context, ComidaActivity::class.java))
+            }
+            ClickableCard("Puestos de recuerdos", R.drawable.recuerdos) {
+                context.startActivity(Intent(context, RecuerdosActivity::class.java))
+            }
+            //Esta modificación se hizo para abrir la actividad de la cartelera al hacer clic
+
+            ClickableCard("Artistas", R.drawable.artistas) {
+                context.startActivity(Intent(context, CarteleraActivity::class.java))
+            }
+            // modificaciones hechas para cada nombre y imagen
 
             Button(
                 onClick = onNavigateToSecondActivity,
@@ -106,6 +125,40 @@ fun BusinessItem(texto: String, imageResId: Int) { //se le agrega esa funcion pa
         }
     }
 }
+//Esta card responderá a los clics realizados y lanzará otra acción, en este caso, abrir la card 4
+@Composable
+fun ClickableCard(texto: String, imageResId: Int, onClick: () -> Unit) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(120.dp)
+            .padding(4.dp)
+            .clickable { onClick() },
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = Purple40)
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(8.dp)
+        ) {
+            Image(
+                painter = painterResource(id = imageResId),
+                contentDescription = texto,
+                modifier = Modifier
+                    .size(100.dp)
+                    .padding(8.dp)
+            )
+            Text(
+                text = texto,
+                fontFamily = FontFamily.SansSerif,
+                fontSize = 18.sp,
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.padding(8.dp)
+            )
+        }
+    }
+}
+
 
 // LOS PREVIUW PARA VISUALIZAR LA APP SIN TENER QUE ABRIR LA MAQUINA VIRTUAL
 
