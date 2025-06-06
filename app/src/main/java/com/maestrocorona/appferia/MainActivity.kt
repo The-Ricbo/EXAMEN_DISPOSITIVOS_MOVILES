@@ -28,7 +28,11 @@ import kotlinx.coroutines.launch
 import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.text.googlefonts.Font as GoogleFontInstance
 import androidx.compose.ui.text.googlefonts.GoogleFont.Provider
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.text.font.FontFamily as ComposeFontFamily
+
+
+
 
 // ✅ COLOR PRINCIPAL
 private val Purple40 = Color(0xFF6650a4)
@@ -60,7 +64,25 @@ fun MainScreen(onNavigateToSecondActivity: () -> Unit) {
     val context = LocalContext.current
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val coroutineScope = rememberCoroutineScope()
+    var showWebView by remember { mutableStateOf(false) }
 
+    if (showWebView) {
+        Column {
+            //  Botón para volver a la pantalla principal
+            Button(
+                onClick = { showWebView = false },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Text("← Volver")
+            }
+
+            //  WebView cargando la página
+            WebViewScreen(url = "https://thecatapi.com/")
+        }
+
+} else {
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
@@ -79,6 +101,10 @@ fun MainScreen(onNavigateToSecondActivity: () -> Unit) {
                 ClickableCard("Artistas", R.drawable.artistas) {
                     context.startActivity(Intent(context, CarteleraActivity::class.java))
                 }
+                ClickableCard("The Cat API", R.drawable.cat) {
+                    showWebView = true
+                    coroutineScope.launch { drawerState.close() }
+                }
 
                 Spacer(modifier = Modifier.height(16.dp))
 
@@ -93,8 +119,9 @@ fun MainScreen(onNavigateToSecondActivity: () -> Unit) {
                     Text("Regresar al inicio", fontFamily = modernFontFamily)
                 }
             }
-        }
-    ) {
+            }
+
+            ) {
         Scaffold(
             topBar = {
                 SmallTopAppBar(
@@ -122,6 +149,7 @@ fun MainScreen(onNavigateToSecondActivity: () -> Unit) {
                 ) {
                     Spacer(modifier = Modifier.height(80.dp))
 
+
                     // ✅ IMAGEN CENTRADA
                     Image(
                         painter = painterResource(id = R.drawable.feria2024),
@@ -132,6 +160,7 @@ fun MainScreen(onNavigateToSecondActivity: () -> Unit) {
                     )
 
                     Spacer(modifier = Modifier.height(80.dp))
+
 
                     // ✅ BOTÓN ABAJO
                     Button(
@@ -146,7 +175,9 @@ fun MainScreen(onNavigateToSecondActivity: () -> Unit) {
             }
         )
     }
+    }
 }
+
 
 
 // ✅ CARD DECORATIVA (NO CLICKEABLE)
@@ -219,7 +250,7 @@ fun ClickableCard(texto: String, imageResId: Int, onClick: () -> Unit) {
                 painter = painterResource(id = imageResId),
                 contentDescription = texto,
                 modifier = Modifier
-                    .size(80.dp)
+                        .size(80.dp)
                     .padding(end = 12.dp)
             )
             Text(
@@ -232,4 +263,9 @@ fun ClickableCard(texto: String, imageResId: Int, onClick: () -> Unit) {
             )
         }
     }
+}
+@Preview(showBackground = true)
+@Composable
+fun MainScreenPreview() {
+    MainScreen(onNavigateToSecondActivity = {})
 }
