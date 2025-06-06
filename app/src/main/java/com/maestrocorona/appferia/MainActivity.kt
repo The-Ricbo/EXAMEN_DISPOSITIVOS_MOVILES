@@ -101,7 +101,7 @@ fun MainScreen(onNavigateToSecondActivity: () -> Unit) {
                 ClickableCard("Artistas", R.drawable.artistas) {
                     context.startActivity(Intent(context, CarteleraActivity::class.java))
                 }
-                ClickableCard("The Cat API", R.drawable.cat) {
+                ClickableCard("The Cat API", ZDcat) {
                     showWebView = true
                     coroutineScope.launch { drawerState.close() }
                 }
