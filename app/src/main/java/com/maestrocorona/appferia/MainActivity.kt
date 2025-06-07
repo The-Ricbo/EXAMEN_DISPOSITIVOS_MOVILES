@@ -30,14 +30,15 @@ import androidx.compose.ui.text.googlefonts.Font as GoogleFontInstance
 import androidx.compose.ui.text.googlefonts.GoogleFont.Provider
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.text.font.FontFamily as ComposeFontFamily
+import android.widget.Toast
 
 
 
 
-// ✅ COLOR PRINCIPAL
+//  COLOR PRINCIPAL
 private val Purple40 = Color(0xFF6650a4)
 
-// ✅ FUENTE PERSONALIZADA: POPPINS
+//  FUENTE PERSONALIZADA: POPPINS
 val provider = Provider(
     providerAuthority = "com.google.android.gms.fonts",
     providerPackage = "com.google.android.gms",
@@ -95,16 +96,30 @@ fun MainScreen(onNavigateToSecondActivity: () -> Unit) {
                 )
                 Spacer(modifier = Modifier.height(8.dp))
 
-                BusinessItem("Juegos", R.drawable.juegos)
-                BusinessItem("Puestos de comida", R.drawable.comida)
-                BusinessItem("Puestos de recuerdos", R.drawable.recuerdos)
+                ClickableCard("Juegos", R.drawable.juegos) {
+                    // Reemplaza con la actividad correspondiente si tienes una
+                    Toast.makeText(context, "Juegos", Toast.LENGTH_SHORT).show()
+                }
+
+                ClickableCard("Puestos de comida", R.drawable.comida) {
+                    // Acción al hacer clic
+                    Toast.makeText(context, "Puestos de comida", Toast.LENGTH_SHORT).show()
+                }
+
+                ClickableCard("Puestos de recuerdos", R.drawable.recuerdos) {
+                    // Acción al hacer clic
+                    Toast.makeText(context, "Puestos de recuerdos", Toast.LENGTH_SHORT).show()
+                }
+
                 ClickableCard("Artistas", R.drawable.artistas) {
                     context.startActivity(Intent(context, CarteleraActivity::class.java))
                 }
-                ClickableCard("The Cat API", ZDcat) {
+
+                ClickableCard("The Cat API", R.drawable.cat) {
                     showWebView = true
                     coroutineScope.launch { drawerState.close() }
                 }
+
 
                 Spacer(modifier = Modifier.height(16.dp))
 
@@ -138,7 +153,7 @@ fun MainScreen(onNavigateToSecondActivity: () -> Unit) {
                 )
             },
             content = { paddingValues ->
-                // ✅ NUEVO DISEÑO DE LA PANTALLA PRINCIPAL
+                //  NUEVO DISEÑO DE LA PANTALLA PRINCIPAL
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
@@ -150,7 +165,7 @@ fun MainScreen(onNavigateToSecondActivity: () -> Unit) {
                     Spacer(modifier = Modifier.height(80.dp))
 
 
-                    // ✅ IMAGEN CENTRADA
+                    //  IMAGEN CENTRADA
                     Image(
                         painter = painterResource(id = R.drawable.feria2024),
                         contentDescription = "Imagen Feria 2024",
@@ -162,7 +177,7 @@ fun MainScreen(onNavigateToSecondActivity: () -> Unit) {
                     Spacer(modifier = Modifier.height(80.dp))
 
 
-                    // ✅ BOTÓN ABAJO
+                    //  BOTÓN ABAJO
                     Button(
                         onClick = onNavigateToSecondActivity
                     ) {
@@ -180,7 +195,7 @@ fun MainScreen(onNavigateToSecondActivity: () -> Unit) {
 
 
 
-// ✅ CARD DECORATIVA (NO CLICKEABLE)
+//  CARD DECORATIVA
 @Composable
 fun BusinessItem(texto: String, imageResId: Int) {
     val interactionSource = remember { MutableInteractionSource() }
@@ -220,7 +235,7 @@ fun BusinessItem(texto: String, imageResId: Int) {
     }
 }
 
-// ✅ CARD CLICKEABLE (CARTELERA)
+//  CARD CLICKEABLE (CARTELERA)
 @Composable
 fun ClickableCard(texto: String, imageResId: Int, onClick: () -> Unit) {
     val interactionSource = remember { MutableInteractionSource() }
