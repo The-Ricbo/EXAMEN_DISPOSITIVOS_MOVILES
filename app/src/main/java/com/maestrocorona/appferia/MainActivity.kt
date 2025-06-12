@@ -97,18 +97,16 @@ fun MainScreen(onNavigateToSecondActivity: () -> Unit) {
                 Spacer(modifier = Modifier.height(8.dp))
 
                 ClickableCard("Juegos", R.drawable.juegos) {
-                    // Reemplaza con la actividad correspondiente si tienes una
-                    Toast.makeText(context, "Juegos", Toast.LENGTH_SHORT).show()
+                    context.startActivity(Intent(context, JuegosActivity::class.java))
                 }
 
+
                 ClickableCard("Puestos de comida", R.drawable.comida) {
-                    // Acción al hacer clic
-                    Toast.makeText(context, "Puestos de comida", Toast.LENGTH_SHORT).show()
+                    context.startActivity(Intent(context, ComidaActivity::class.java))
                 }
 
                 ClickableCard("Puestos de recuerdos", R.drawable.recuerdos) {
-                    // Acción al hacer clic
-                    Toast.makeText(context, "Puestos de recuerdos", Toast.LENGTH_SHORT).show()
+                    context.startActivity(Intent(context, RecuerdosActivity::class.java))
                 }
 
                 ClickableCard("Artistas", R.drawable.artistas) {
